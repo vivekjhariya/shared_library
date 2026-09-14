@@ -7,7 +7,7 @@ def call() {
             echo "Docker not found. Installing..."
             sudo apt-get update -y
             sudo apt-get install -y docker.io
-            // sudo usermod -aG docker jenkins || true
+            sudo usermod -aG docker jenkins || true
             sudo usermod -aG docker $USER || true
             echo "Docker installed successfully"
         else
