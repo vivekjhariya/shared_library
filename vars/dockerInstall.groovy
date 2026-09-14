@@ -9,7 +9,6 @@ def call() {
             sudo apt-get install -y docker.io
             sudo usermod -aG docker jenkins || true
             sudo usermod -aG docker $USER || true
-            newgrp docker 
             sudo systemctl enable --now docker
             echo "Docker installed successfully"
         else
