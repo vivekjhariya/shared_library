@@ -23,7 +23,8 @@ def call() {
         else
             echo "Docker Compose is already installed"
         fi
-
+        
+        sudo systemctl restart docker
         docker --version
         docker compose version
     '''
