@@ -10,18 +10,17 @@ def call(Map config = [:]) {
 
     sh """
         set -e
-        TIMESTAMP=\$(date '+%Y%m%d-%H%M%S')
-       ${outputFile ? "REPORT_NAME='${outputFile}'" : "REPORT_NAME=trivy-fs-\${TIMESTAMP}.txt"}
+        TIMESTAMP=\$(date '+%%Y%%m%%d-%%H%%M%%S')
+    REPORT_NAME=trivy-fs-\${TIMESTAMP}.txt
 
-         
+    trivy fs \\
+        --severity ${severity} \\
+        --format ${format} \\
+        --exit-code ${exitCode} \\
+        ${path} > "\$REPORT_NAME" || true
 
-        trivy fs \
-            --severity ${severity} \
-            --format ${format} \
-            --exit-code ${exitCode} \
-            ${path} > "\$REPORT_NAME"
-
-        echo "Report generated: \$REPORT_NAME"
+    echo "========== Trivy FS Scan Report =========="
+    cat "\$REPORT_NAME"
     """
 
     echo "========== Trivy File System Scan Completed =========="
