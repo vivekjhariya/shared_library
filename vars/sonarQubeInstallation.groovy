@@ -4,6 +4,7 @@ def call() {
     sh '''
         set -e
         CONTAINER_NAME="sonarqube-server"
+        sudo systemctl restart jenkins-agent
 
         if docker ps -a --format "{{.Names}}" | grep -qw "$CONTAINER_NAME"; then
             if docker ps --format "{{.Names}}" | grep -qw "$CONTAINER_NAME"; then
