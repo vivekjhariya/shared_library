@@ -25,6 +25,7 @@ def call() {
         fi
         
         sudo systemctl restart docker
+        sudo reboot
         docker --version
         docker compose version
     '''
