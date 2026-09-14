@@ -1,7 +1,7 @@
 def call(Map config = [:]) {
 
     def path         = config.path ?: "."
-    def severity     = config.severity ?: "HIGH,CRITICAL"
+    def severity     = config.severity ?: "HIGH,CRITICAL,MEDIUM, LOW"
     def format       = config.format ?: "table"
     def exitCode     = config.exitCode ?: 1
     def outputFile   = config.outputFile ?: ""
