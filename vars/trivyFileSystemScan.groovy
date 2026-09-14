@@ -12,6 +12,7 @@ def call(Map config = [:]) {
         set -e
         TIMESTAMP=\$(date '+%Y%m%d-%H%M%S')
         REPORT_NAME=\${OUTPUT_FILE:-trivy-fs-\${TIMESTAMP}.txt}
+        sudo cat trivy-fs-\${TIMESTAMP}.txt
 
         trivy fs \
             --severity ${severity} \
