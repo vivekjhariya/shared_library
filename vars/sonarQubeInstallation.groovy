@@ -4,18 +4,20 @@ def call() {
     sh '''
         set -e
         CONTAINER_NAME="sonarqube-server"
-        
 
-        if docker ps -a --format "{{.Names}}" | grep -qw "$CONTAINER_NAME"; then
-            if docker ps --format "{{.Names}}" | grep -qw "$CONTAINER_NAME"; then
+        # Ensure socket is usable in this job
+        sudo chmod 666 /var/run/docker.sock || true
+
+        if sudo docker ps -a --format "{{.Names}}" | grep -qw "$CONTAINER_NAME"; then
+            if sudo docker ps --format "{{.Names}}" | grep -qw "$CONTAINER_NAME"; then
                 echo "SonarQube is already running"
             else
                 echo "SonarQube exists but is stopped. Starting it..."
-                docker start "$CONTAINER_NAME"
+                sudo docker start "$CONTAINER_NAME"
             fi
         else
             echo "SonarQube container not found. Creating and starting..."
-            docker run -d \
+            sudo docker run -d \
                 --name "$CONTAINER_NAME" \
                 --restart unless-stopped \
                 -p 9000:9000 \
@@ -26,4 +28,4 @@ def call() {
                 sonarqube:lts-community
         fi
     '''
-}   
+}
