@@ -24,5 +24,25 @@ def call(Map config = [:]) {
         pattern: '**/dependency-check-report.xml'
     )
 
+    // Console output + artifacts
+    sh '''
+        set +e
+        echo "========== OWASP Report Files =========="
+        ls -la dependency-check-report.* 2>/dev/null || ls -la **/dependency-check-report.* 2>/dev/null || true
+
+        if [ -f dependency-check-report.xml ]; then
+            echo "========== OWASP XML Summary =========="
+            echo "Vulnerabilities found (approx):"
+            grep -o "<vulnerability>" dependency-check-report.xml | wc -l || true
+            echo "---------- Report path ----------"
+            echo "dependency-check-report.xml"
+        else
+            echo "WARNING: dependency-check-report.xml not found in workspace root"
+            find . -name "dependency-check-report.xml" 2>/dev/null || true
+        fi
+    '''
+
+    archiveArtifacts artifacts: '**/dependency-check-report.*', allowEmptyArchive: true
+
     echo "========== OWASP Dependency-Check Completed =========="
 }
