@@ -19,14 +19,16 @@ def call(Map config = [:]) {
             set -e
             cat > ${envFile} <<EOF
 APP_PORT=${appPort}
-JWT_SECRET=${JWT_SECRET}
-MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+JWT_SECRET=${env.JWT_SECRET}
+MYSQL_ROOT_PASSWORD=${env.MYSQL_ROOT_PASSWORD}
 MYSQL_DATABASE=${dbName}
 MYSQL_USER=${dbUser}
-MYSQL_PASSWORD=${MYSQL_PASSWORD}
+MYSQL_PASSWORD=${env.MYSQL_PASSWORD}
 EOF
-            echo ".env created successfully at ${envFile}"
-            echo "Keys written: APP_PORT, JWT_SECRET, MYSQL_ROOT_PASSWORD, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD"
+           echo ".env created at ${envFile}"
+            echo "Checking keys present (values hidden):"
+            grep -E '^(APP_PORT|JWT_SECRET|MYSQL_ROOT_PASSWORD|MYSQL_DATABASE|MYSQL_USER|MYSQL_PASSWORD)=' ${envFile} | cut -d= -f1
+            wc -l ${envFile}
         """
     }
 
