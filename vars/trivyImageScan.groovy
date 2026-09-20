@@ -19,9 +19,11 @@ def call(Map config = [:]) {
             --severity ${severity} \
             --format ${format} \
             --exit-code ${exitCode} \
-            ${image} > "\$REPORT_NAME"
+            ${image} | tee "\$REPORT_NAME"
 
+       STATUS=\$?
         echo "Report generated: \$REPORT_NAME"
+        exit \$STATUS
     """
 
     echo "========== Trivy Image Scan Completed =========="
