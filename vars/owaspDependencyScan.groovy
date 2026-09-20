@@ -14,7 +14,7 @@ def call(Map config = [:]) {
                 --scan ${scanPath}
                 --format XML
                 --failOnCVSS ${failOnCVSS}
-                --nvdApiKey ${NVD_API_KEY}
+                --nvdApiKey ${env.NVD_API_KEY}
                 --prettyPrint
             """.trim()
         )
